@@ -8,25 +8,25 @@
 >
 > For licensing information, visit https://velobpa.com/licensing or contact licensing@velobpa.com.
 
-A comprehensive n8n community node for Cin7 Core (formerly DEAR Inventory), providing full access to inventory management, sales, purchases, customers, suppliers, and stock operations for omnichannel retail, wholesale, and manufacturing businesses.
+This n8n community node provides comprehensive integration with Cin7 Core inventory management system, supporting 7 essential resources including products, sales, purchases, customers, suppliers, stock transfers, and locations. Enable seamless automation of inventory operations, order management, and business workflows with full CRUD capabilities across all major Cin7 Core entities.
 
-![n8n](https://img.shields.io/badge/n8n-community--node-orange)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![n8n Community Node](https://img.shields.io/badge/n8n-Community%20Node-blue)
 ![License](https://img.shields.io/badge/license-BSL--1.1-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
+![Inventory Management](https://img.shields.io/badge/Inventory-Management-green)
+![ERP Integration](https://img.shields.io/badge/ERP-Integration-orange)
+![Cin7 Core](https://img.shields.io/badge/Cin7-Core-red)
 
 ## Features
 
-- **12 Resource Categories** with 70+ operations
-- **Product Management** - Create, update, delete products, manage pricing tiers, track availability
-- **Sales Order Processing** - Full order lifecycle: create, pick, pack, ship, invoice, payment
-- **Purchase Order Management** - Create POs, authorize, receive stock, add costs, invoice
-- **Customer & Supplier Management** - Contacts, addresses, credit limits, payment terms
-- **Inventory Control** - Stock transfers, adjustments, multi-location tracking
-- **Bill of Materials** - Component management for manufacturing
-- **Reference Data** - Price tiers, chart of accounts, payment terms
-- **Polling Trigger** - Monitor changes via ModifiedSince filtering
-- **Rate Limiting** - Built-in exponential backoff for API rate limits
-- **Pagination Support** - Automatic handling of large result sets
+- **Complete Product Management** - Create, read, update and delete products with full inventory tracking capabilities
+- **Sales Order Processing** - Automate sales workflows including order creation, updates, and status management
+- **Purchase Order Automation** - Streamline procurement processes with comprehensive purchase order handling
+- **Customer Relationship Management** - Manage customer data, contacts, and relationship information seamlessly
+- **Supplier Management** - Handle supplier information, contacts, and procurement relationships
+- **Stock Transfer Operations** - Automate inventory movements between locations with full tracking
+- **Location Management** - Manage warehouse and location data for multi-location inventory control
+- **Advanced Error Handling** - Robust error management with detailed logging and recovery options
 
 ## Installation
 
@@ -34,325 +34,188 @@ A comprehensive n8n community node for Cin7 Core (formerly DEAR Inventory), prov
 
 1. Open n8n
 2. Go to **Settings** → **Community Nodes**
-3. Click **Install**
+3. Click **Install a community node**
 4. Enter `n8n-nodes-cin7-core`
 5. Click **Install**
 
 ### Manual Installation
 
 ```bash
-cd ~/.n8n/custom
+cd ~/.n8n
 npm install n8n-nodes-cin7-core
 ```
 
 ### Development Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/Velocity-BPA/n8n-nodes-cin7-core.git
 cd n8n-nodes-cin7-core
-
-# Install dependencies
 npm install
-
-# Build the project
 npm run build
-
-# Create symlink to n8n custom nodes directory
 mkdir -p ~/.n8n/custom
 ln -s $(pwd) ~/.n8n/custom/n8n-nodes-cin7-core
-
-# Restart n8n
 n8n start
 ```
 
 ## Credentials Setup
 
-To use the Cin7 Core node, you need API credentials from your Cin7 Core account.
-
-### Getting API Credentials
-
-1. Log in to your Cin7 Core account
-2. Navigate to **Settings & Options** → **Integrations & API** → **Cin7 Core API**
-3. Click **Create API Application**
-4. Note down the **Account ID** and **Application Key**
-
-### Credential Configuration
-
-| Field | Type | Description |
-|-------|------|-------------|
-| Account ID | String | Your Cin7 Core Account ID |
-| Application Key | String | Your API Application Key |
-| Use V2 API | Boolean | Use V2 API endpoints (recommended, default: true) |
+| Field | Description | Required |
+|-------|-------------|----------|
+| API Key | Your Cin7 Core API key from account settings | Yes |
+| Account ID | Your Cin7 Core account identifier | Yes |
+| Environment | Production or sandbox environment URL | Yes |
 
 ## Resources & Operations
 
-### Product
-| Operation | Description |
-|-----------|-------------|
-| Get | Retrieve a product by ID |
-| Get Many | List all products with filters |
-| Create | Create a new product |
-| Update | Update product details |
-| Delete | Delete a product |
-| Get Availability | Get stock availability across locations |
-| Update Pricing | Update product pricing tiers |
-| Attach File | Attach a file/image to a product |
-| Get Suppliers | List suppliers for a product |
-| Add Supplier | Add a supplier to a product |
+### 1. Product
 
-### Sale
 | Operation | Description |
 |-----------|-------------|
-| Get | Retrieve a sale by ID |
-| Get Many | List all sales with filters |
-| Create | Create a new sale order |
-| Update | Update sale details |
-| Void | Void a sale |
-| Undo | Undo a voided sale |
-| Pick | Pick items for a sale |
-| Pack | Pack items for shipment |
-| Ship | Ship a sale order |
-| Create Invoice | Generate invoice for sale |
-| Add Payment | Record payment against sale |
+| Create | Create a new product with inventory details |
+| Get | Retrieve a specific product by ID |
+| Get All | List all products with optional filtering |
+| Update | Modify existing product information |
+| Delete | Remove a product from inventory |
 
-### Purchase
+### 2. Sale
+
 | Operation | Description |
 |-----------|-------------|
-| Get | Retrieve a purchase order by ID |
-| Get Many | List all purchase orders |
+| Create | Create a new sales order or invoice |
+| Get | Retrieve a specific sale by ID |
+| Get All | List all sales with date and status filters |
+| Update | Modify existing sale information |
+| Delete | Cancel or remove a sales record |
+
+### 3. Purchase
+
+| Operation | Description |
+|-----------|-------------|
 | Create | Create a new purchase order |
-| Update | Update purchase order |
-| Delete | Delete a purchase order |
-| Authorize | Authorize purchase order |
-| Receive | Receive stock against PO |
-| Add Cost | Add additional costs |
-| Create Credit Note | Create credit note for PO |
-| Invoice | Mark as invoiced |
+| Get | Retrieve a specific purchase order by ID |
+| Get All | List all purchase orders with filtering options |
+| Update | Modify existing purchase order details |
+| Delete | Cancel or remove a purchase order |
 
-### Customer
+### 4. Customer
+
 | Operation | Description |
 |-----------|-------------|
-| Get | Retrieve customer by ID |
-| Get Many | List all customers |
-| Create | Create a new customer |
-| Update | Update customer details |
-| Delete | Deactivate a customer |
-| Get Contacts | List customer contacts |
-| Add Contact | Add a contact to customer |
-| Get Addresses | List customer addresses |
-| Add Address | Add address to customer |
+| Create | Add a new customer to the system |
+| Get | Retrieve specific customer information |
+| Get All | List all customers with search capabilities |
+| Update | Modify existing customer details |
+| Delete | Remove a customer from the system |
 
-### Supplier
+### 5. Supplier
+
 | Operation | Description |
 |-----------|-------------|
-| Get | Retrieve supplier by ID |
-| Get Many | List all suppliers |
-| Create | Create a new supplier |
-| Update | Update supplier details |
-| Delete | Deactivate a supplier |
-| Get Contacts | List supplier contacts |
-| Add Contact | Add contact to supplier |
-| Get Products | List products from supplier |
+| Create | Add a new supplier to the system |
+| Get | Retrieve specific supplier information |
+| Get All | List all suppliers with filtering options |
+| Update | Modify existing supplier details |
+| Delete | Remove a supplier from the system |
 
-### Stock Transfer
+### 6. StockTransfer
+
 | Operation | Description |
 |-----------|-------------|
-| Get | Retrieve stock transfer by ID |
-| Get Many | List all stock transfers |
-| Create | Create a new stock transfer |
-| Update | Update stock transfer |
-| Authorize | Authorize transfer |
-| Pick | Pick items for transfer |
-| Complete | Complete transfer |
-| Void | Void a transfer |
+| Create | Create a new stock transfer between locations |
+| Get | Retrieve a specific stock transfer by ID |
+| Get All | List all stock transfers with status filters |
+| Update | Modify existing transfer details |
+| Delete | Cancel or remove a stock transfer |
 
-### Stock Adjustment
+### 7. Location
+
 | Operation | Description |
 |-----------|-------------|
-| Get | Retrieve stock adjustment by ID |
-| Get Many | List all stock adjustments |
-| Create | Create a stock adjustment |
-| Authorize | Authorize adjustment |
-| Void | Void an adjustment |
-
-### Location
-| Operation | Description |
-|-----------|-------------|
-| Get | Retrieve location by ID |
-| Get Many | List all locations |
-| Create | Create a new location |
-| Update | Update location details |
-| Delete | Delete a location |
-| Get Stock | Get stock levels at location |
-
-### Bill of Materials
-| Operation | Description |
-|-----------|-------------|
-| Get | Retrieve BOM by product ID |
-| Create | Create BOM for product |
-| Update | Update BOM components |
-| Delete | Delete BOM |
-| Get Components | List BOM components |
-| Add Component | Add component to BOM |
-
-### Price Tier
-| Operation | Description |
-|-----------|-------------|
-| Get Many | List all price tiers |
-| Get Prices | Get prices for a tier |
-| Update Price | Update tier price for product |
-
-### Chart of Accounts
-| Operation | Description |
-|-----------|-------------|
-| Get | Get account details |
-| Get Many | List all accounts |
-
-### Payment Term
-| Operation | Description |
-|-----------|-------------|
-| Get Many | List all payment terms |
-
-## Trigger Node
-
-The Cin7 Core Trigger node monitors for changes using polling with the ModifiedSince parameter.
-
-### Supported Events
-
-- Sale Created/Updated/Shipped
-- Purchase Created/Updated/Received
-- Product Created/Updated/Stock Changed
-- Customer Created/Updated
-- Stock Transfer Created/Completed
-
-### Trigger Options
-
-| Option | Description |
-|--------|-------------|
-| Location | Filter events by location |
-| Status | Filter events by status |
+| Create | Add a new warehouse or location |
+| Get | Retrieve specific location information |
+| Get All | List all locations in the system |
+| Update | Modify existing location details |
+| Delete | Remove a location from the system |
 
 ## Usage Examples
 
-### Create a Sales Order
+```javascript
+// Create a new product
+{
+  "name": "Wireless Bluetooth Headphones",
+  "sku": "WBH-001",
+  "category": "Electronics",
+  "price": 79.99,
+  "description": "Premium wireless headphones with noise cancellation",
+  "stockOnHand": 150
+}
+```
 
 ```javascript
-// Using the Cin7 Core node
+// Create a sales order
 {
-  "resource": "sale",
-  "operation": "create",
-  "customer": "Acme Corp",
-  "lines": {
-    "lineItems": [
-      {
-        "productId": "abc123-def456-...",
-        "quantity": 10,
-        "price": 29.99
-      }
-    ]
-  },
-  "additionalFields": {
-    "location": "Main Warehouse",
-    "shipBy": "2025-02-15T00:00:00Z"
+  "customerId": "12345",
+  "orderDate": "2024-01-15",
+  "items": [
+    {
+      "productId": "67890",
+      "quantity": 2,
+      "unitPrice": 79.99
+    }
+  ],
+  "shippingAddress": {
+    "street": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001"
   }
 }
 ```
 
-### Sync Products Modified Since Yesterday
+```javascript
+// Transfer stock between locations
+{
+  "fromLocationId": "LOC001",
+  "toLocationId": "LOC002",
+  "productId": "67890",
+  "quantity": 25,
+  "transferDate": "2024-01-15",
+  "notes": "Restock for high-demand location"
+}
+```
 
 ```javascript
-// Using Get Many with ModifiedSince filter
+// Get all products with low stock
 {
-  "resource": "product",
-  "operation": "getAll",
-  "returnAll": true,
   "filters": {
-    "modifiedSince": "{{ $now.minus(1, 'day').toISO() }}"
-  }
+    "stockLevel": "low",
+    "category": "Electronics",
+    "active": true
+  },
+  "limit": 50,
+  "orderBy": "stockOnHand"
 }
 ```
-
-### Stock Transfer Between Warehouses
-
-```javascript
-{
-  "resource": "stockTransfer",
-  "operation": "create",
-  "fromLocation": "Main Warehouse",
-  "toLocation": "Retail Store",
-  "lines": {
-    "lineItems": [
-      {
-        "productId": "product-guid",
-        "quantity": 50
-      }
-    ]
-  }
-}
-```
-
-## Cin7 Core Concepts
-
-### Order Lifecycle
-
-Sales in Cin7 Core follow a workflow: Draft → Authorized → Picking → Packing → Shipped → Completed. Each stage can be managed through the corresponding operations.
-
-### GUID Identifiers
-
-Cin7 Core uses GUID format for all entity IDs (e.g., `a1b2c3d4-e5f6-7890-abcd-ef1234567890`). The node validates GUID format before making API calls.
-
-### Price Tiers
-
-Cin7 supports multiple pricing tiers for B2B scenarios. You can assign customers to specific tiers and manage tier-specific pricing per product.
-
-### Multi-Location Inventory
-
-Stock levels are tracked per location. Use the Location resource to manage warehouses and the Product availability operations to check stock across all locations.
 
 ## Error Handling
 
-The node handles common API errors:
-
-| Status | Description | Handling |
-|--------|-------------|----------|
-| 400 | Bad Request | Validation error messages returned |
-| 401 | Unauthorized | Invalid credentials |
-| 403 | Forbidden | Insufficient permissions |
-| 404 | Not Found | Entity doesn't exist |
-| 429 | Rate Limited | Exponential backoff (1s-60s, max 5 retries) |
-| 500 | Server Error | Retry with backoff |
-
-## Security Best Practices
-
-1. **API Key Security** - Store API credentials in n8n's encrypted credential storage
-2. **Least Privilege** - Create API applications with minimum required permissions
-3. **Audit Logging** - Monitor API usage through Cin7's audit logs
-4. **Rate Limits** - Be mindful of your subscription tier's rate limits
+| Error | Description | Solution |
+|-------|-------------|----------|
+| Authentication Failed | Invalid API key or account credentials | Verify API key and account ID in credentials |
+| Rate Limit Exceeded | Too many requests sent to Cin7 Core API | Implement delays between requests or reduce frequency |
+| Resource Not Found | Requested product, sale, or other resource doesn't exist | Check resource ID and ensure it exists in Cin7 Core |
+| Validation Error | Required fields missing or invalid data format | Review field requirements and data types |
+| Insufficient Permissions | API key lacks permissions for requested operation | Check API key permissions in Cin7 Core settings |
+| Network Timeout | Request to Cin7 Core API timed out | Check network connectivity and retry request |
 
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Build
 npm run build
-
-# Development mode (watch)
-npm run dev
-
-# Run linting
-npm run lint
-
-# Fix linting issues
-npm run lint:fix
-
-# Run tests
 npm test
-
-# Run tests with coverage
-npm run test:coverage
+npm run lint
+npm run dev
 ```
 
 ## Author
@@ -371,8 +234,7 @@ Permitted for personal, educational, research, and internal business use.
 ### Commercial Use
 Use of this node within any SaaS, PaaS, hosted platform, managed service, or paid automation offering requires a commercial license.
 
-For licensing inquiries:
-**licensing@velobpa.com**
+For licensing inquiries: **licensing@velobpa.com**
 
 See [LICENSE](LICENSE), [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md), and [LICENSING_FAQ.md](LICENSING_FAQ.md) for details.
 
@@ -380,19 +242,14 @@ See [LICENSE](LICENSE), [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md), and [LIC
 
 Contributions are welcome! Please ensure:
 
-1. Code follows the existing style
-2. All tests pass
-3. New features include tests
-4. Update documentation as needed
+1. Code follows existing style conventions
+2. All tests pass (`npm test`)
+3. Linting passes (`npm run lint`)
+4. Documentation is updated for new features
+5. Commit messages are descriptive
 
 ## Support
 
-- **Documentation**: [Cin7 Core API Docs](https://developer.cin7.com/)
 - **Issues**: [GitHub Issues](https://github.com/Velocity-BPA/n8n-nodes-cin7-core/issues)
-- **Licensing**: licensing@velobpa.com
-
-## Acknowledgments
-
-- [Cin7](https://www.cin7.com/) for their comprehensive inventory management API
-- [n8n](https://n8n.io/) for the excellent workflow automation platform
-- The n8n community for inspiration and best practices
+- **Cin7 Core API Documentation**: [https://core.cin7.com/api-docs](https://core.cin7.com/api-docs)
+- **Cin7 Core Support**: [https://support.cin7.com](https://support.cin7.com)
