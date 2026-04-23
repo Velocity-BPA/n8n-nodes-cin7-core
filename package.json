@@ -2,7 +2,7 @@
   "name": "@velocity-bpa/n8n-nodes-cin7-core",
   "version": "1.0.0",
   "description": "n8n community node for Cin7 Core (DEAR Systems) inventory management",
-  "license": "bsl-catalog",
+  "license": "SEE LICENSE IN LICENSE.md",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -30,7 +30,7 @@
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "n8n-workflow": "*",
+    "n8n-workflow": "1.57.0",
     "prettier": "^3.0.0",
     "typescript": "^5.0.0"
   },
